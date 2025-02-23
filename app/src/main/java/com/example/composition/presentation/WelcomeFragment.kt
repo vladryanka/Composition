@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.composition.R
 import com.example.composition.databinding.FragmentWelcomeBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,6 +40,20 @@ class WelcomeFragment : Fragment() {
         _binding = FragmentWelcomeBinding.inflate(inflater,container,false)
         return binding.root
     }
+
+    private fun launchChooseLevelFragment(){
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main, ChooseLevelFragment.newInstance())
+            .addToBackStack(ChooseLevelFragment.NAME)
+            .commit()
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.nextScreenButton.setOnClickListener{
+            launchChooseLevelFragment()
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
