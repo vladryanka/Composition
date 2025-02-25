@@ -10,13 +10,13 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.composition.R
+import androidx.navigation.fragment.findNavController
 import com.example.composition.databinding.FragmentGameBinding
 import com.example.composition.domain.entity.GameResult
-import com.example.composition.domain.entity.Level
+import com.example.composition.presentation.viewmodels.GameViewModel
+import com.example.composition.presentation.viewmodels.GameViewModelFactory
 
 class GameFragment : Fragment() {
-    private lateinit var level: Level
     private var _binding: FragmentGameBinding? = null
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
@@ -33,14 +33,14 @@ class GameFragment : Fragment() {
     }
 
     private val viewModel: GameViewModel by lazy {
+        val args = GameFragmentArgs.fromBundle(requireArguments())
         ViewModelProvider(
-            this, GameViewModelFactory(level, requireActivity().application)
+            this, GameViewModelFactory(args.level, requireActivity().application)
         )[GameViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        parseArgs()
     }
 
     override fun onCreateView(
@@ -108,34 +108,17 @@ class GameFragment : Fragment() {
     }
 
     private fun launchGameFinishedFragment(result: GameResult) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main, GameFinishedFragment.newInstance(result))
-            .addToBackStack(null)
-            .commit()
+        findNavController().navigate(
+            GameFragmentDirections.actionGameFragmentToGameFinishedFragment(
+                result
+            )
+        )
     }
 
-    private fun parseArgs() {
-        requireArguments().getParcelable<Level>(KEY_LEVEL)?.let {
-            level = it
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    companion object {
-        private const val KEY_LEVEL = "level"
-
-        const val NAME = "GameFragment"
-
-        @JvmStatic
-        fun newInstance(level: Level) =
-            GameFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_LEVEL, level)
-                }
-            }
-    }
 }
