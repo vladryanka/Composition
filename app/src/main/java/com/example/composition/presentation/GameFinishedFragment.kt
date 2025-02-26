@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.composition.R
 import com.example.composition.databinding.FragmentGameFinishedBinding
 
 class GameFinishedFragment : Fragment() {
@@ -34,41 +33,7 @@ class GameFinishedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
-        bindViews()
-    }
-
-    private fun bindViews() {
-        with(binding) {
-            percentTextView.text = String.format(
-                getString(R.string.progress_answers),
-                getPercentOfRightAnswers()
-            )
-            countTextView.text = String.format(
-                getString(R.string.score_answers),
-                args.result.gameSettings.minWinValue.toString()
-            )
-            smileImage.setImageResource(getSmileResId())
-            requiredQuantityTextView.text = String.format(
-                getString(R.string.required_score),
-                args.result.countOfRightAnswers.toString()
-            )
-            requiredQuantityPercentTextView.text = String.format(
-                getString(R.string.required_percentage),
-                args.result.gameSettings.minPresentOfRightAnswers.toString()
-            )
-        }
-    }
-
-    private fun getPercentOfRightAnswers() = with(args.result) {
-        if (countOfQuestions == 0) {
-            0
-        } else {
-            ((countOfRightAnswers / countOfQuestions.toDouble()) * 100).toInt()
-        }
-    }
-
-    private fun getSmileResId(): Int {
-        return if (args.result.winResult) R.drawable.smile else R.drawable.sad_smile
+        binding.gameResult = args.result
     }
 
     private fun setOnClickListeners() {

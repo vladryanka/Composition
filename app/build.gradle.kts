@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     id("androidx.navigation.safeargs")
+    alias(libs.plugins.kapt)
 }
 
 android {
@@ -36,7 +37,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures{
-        viewBinding = true
+        dataBinding = true
     }
 }
 

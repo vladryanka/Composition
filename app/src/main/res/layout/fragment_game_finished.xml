@@ -1,82 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.GameFinishedFragment">
+<layout>
+    <data>
+        <variable
+            name="gameResult"
+            type="com.example.composition.domain.entity.GameResult" />
+    </data>
 
-    <ImageView
-        android:id="@+id/smileImage"
-        android:layout_width="200.dp"
-        android:layout_height="200.0dp"
-        android:layout_margin="8.dp"
-        android:contentDescription="@string/smile"
-        android:src="@drawable/smile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/requiredQuantityTextView"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8.dp"
-        android:text="@string/required_score"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/countTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/smileImage" />
+        android:layout_height="match_parent"
+        tools:context=".presentation.GameFinishedFragment">
 
-    <TextView
-        android:id="@+id/countTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8.dp"
-        android:text="@string/score_answers"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/requiredQuantityPercentTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/requiredQuantityTextView" />
+        <ImageView
+            android:id="@+id/smileImage"
+            android:layout_width="200.dp"
+            android:layout_height="200.0dp"
+            android:layout_margin="8.dp"
+            android:contentDescription="@string/smile"
+            android:src="@drawable/smile"
+            app:resultEmoji = "@{gameResult.winResult}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/requiredQuantityPercentTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8.dp"
-        android:text="@string/required_percentage"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/percentTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countTextView" />
+        <TextView
+            android:id="@+id/requiredQuantityTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8.dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/countTextView"
+            app:requiredAnswers="@{gameResult.gameSettings.minWinValue}"
+            tools:text="@string/progress_answers"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/smileImage"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/percentTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8.dp"
-        android:text="@string/score_percentage"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/requiredQuantityPercentTextView" />
+        <TextView
+            android:id="@+id/countTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8.dp"
+            app:scoreAnswers="@{gameResult.countOfRightAnswers}"
+            android:textSize="18sp"
+            tools:text="@string/score_answers"
+            app:layout_constraintBottom_toTopOf="@+id/requiredQuantityPercentTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/requiredQuantityTextView"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8.dp"
-        android:text="@string/retry"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="8dp" />
+        <TextView
+            android:id="@+id/requiredQuantityPercentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8.dp"
+            android:textSize="18sp"
+            app:requiredPercents="@{gameResult.gameSettings.minPresentOfRightAnswers}"
+            app:layout_constraintBottom_toTopOf="@+id/percentTextView"
+            tools:text="@string/required_percentage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/countTextView"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/percentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8.dp"
+            android:textSize="18sp"
+            app:scorePercentage = "@{gameResult}"
+            tools:text="@string/score_percentage"
+            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/requiredQuantityPercentTextView"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8.dp"
+            android:text="@string/retry"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="8dp" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
